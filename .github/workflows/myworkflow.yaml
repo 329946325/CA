@@ -31,26 +31,15 @@ jobs:
         scan-type: 'config'
         ignore-unfixed: true
         hide-progress: true
-        format: 'sarif'
-        output: 'trivy-report.sarif'
+        format: 'json'
+        output: 'trivy-report.json'
         severity: 'CRITICAL,HIGH'
 
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
       with:
-        name: trivy-report-sarif
-        path: 'trivy-report.sarif'
-    
-    - name: Convert SARIF to JSON
-      run: |
-          cat trivy-report.sarif | sarif-converter -t json > trivy-report.json
-      if: always()
- 
-    - name: Upload trivy report as a Github artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: trivy-report-jason
-        path: 'trivy-report.jason'
+        name: trivy-report
+        path: 'trivy-report.json'
         retention-days: 20 # 90 is the default
 
     # - name: Upload Trivy scan results to GitHub Security tab
