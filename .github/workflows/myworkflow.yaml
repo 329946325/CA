@@ -41,7 +41,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: trivy-report
-        #path: '${{ github.workspace }}/dependency-results.sbom.json'
         path: 'trivy-report.txt'
         retention-days: 20 # 90 is the default
     
