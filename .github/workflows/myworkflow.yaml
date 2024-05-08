@@ -24,24 +24,13 @@ jobs:
         #format: 'sarif'
         #output: 'trivy-report.sarif'
         format: 'table'
-        output: 'trivy-report.txt'
-
-    # - name: Convert to table
-      # uses: aquasecurity/trivy-action@master
-      # with:
-      #   scan-type: convert
-      #   #vuln-type: ""
-      #   #image-ref: results.json
-      #   format: table
-      #   output: trivy-report.txt
-        #severity: 'CRITICAL,HIGH'
-        
-  
+        output: 'trivy-report.json'
+ 
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
       with:
         name: trivy-report
-        path: 'trivy-report.txt'
+        path: 'trivy-report.json' #?????
         retention-days: 20 # 90 is the default
     
     - name: Slack Notification
@@ -54,6 +43,15 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_FILE_UPLOAD: trivy-report.txt
+        SLACK_FILE_UPLOAD: trivy-report.json
         initial_comment: 'Scan report by Xia Tian'
         
+    # - name: Convert to table
+      # uses: aquasecurity/trivy-action@master
+      # with:
+      #   scan-type: convert
+      #   #vuln-type: ""
+      #   #image-ref: results.json
+      #   format: table
+      #   output: trivy-report.txt
+        #severity: 'CRITICAL,HIGH'
