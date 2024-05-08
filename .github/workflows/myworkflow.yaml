@@ -28,8 +28,8 @@ jobs:
       uses: aquasecurity/trivy-action@master
       with:
         scan-type: convert
-        vuln-type: ""
-        image-ref: results.json
+        #vuln-type: ""
+        #image-ref: results.json
         format: table
         output: trivy-report.txt
         #severity: 'CRITICAL,HIGH'
