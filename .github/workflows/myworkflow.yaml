@@ -20,32 +20,32 @@ jobs:
       id: trivy-scan
       uses: aquasecurity/trivy-action@master
       with:
-        # scan-type: 'fs'
-        # scan-ref: '.'
-        # trivy-config: trivy.yaml
-        # severity: 'CRITICAL,HIGH'
+        scan-type: 'fs'
+        scan-ref: '.'
+        trivy-config: trivy.yaml
+        severity: 'CRITICAL,HIGH'
         # format: 'sarif'
         # output: 'trivy-report.sarif'
-        # format: 'json'
-        # output: 'trivy-report.json'
-        scan-type: 'config'
-        ignore-unfixed: true
-        hide-progress: true
-        format: 'sarif'
-        output: 'trivy-report.sarif'
-        severity: 'CRITICAL,HIGH'
+        format: 'json'
+        output: 'trivy-report.json'
+        # scan-type: 'config'
+        # ignore-unfixed: true
+        # hide-progress: true
+        # format: 'sarif'
+        # output: 'trivy-report.sarif'
+        # severity: 'CRITICAL,HIGH'
  
-    # - name: Upload trivy report as a Github artifact
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: trivy-report
-    #     path: 'trivy-report.json'
-    #     retention-days: 20 # 90 is the default
-
-    - name: Upload Trivy scan results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v2
+    - name: Upload trivy report as a Github artifact
+      uses: actions/upload-artifact@v4
       with:
-          sarif_file: 'trivy-report.sarif'
+        name: trivy-report
+        path: 'trivy-report.json'
+        retention-days: 20 # 90 is the default
+
+    # - name: Upload Trivy scan results to GitHub Security tab
+    #   uses: github/codeql-action/upload-sarif@v2
+    #   with:
+    #       sarif_file: 'trivy-report.sarif'
     
     # - name: Slack Notification
     #   uses: rtCamp/action-slack-notify@v2
@@ -68,7 +68,7 @@ jobs:
         title: Scan failed - XiaTian
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channel_id: ${{ secrets.SLACK_CHANNEL }}
-        file_path: 'trivy-report.sarif'
+        file_path: 'trivy-report.json'
         initial_comment: 'Scan report by Xia Tian'
         
     
