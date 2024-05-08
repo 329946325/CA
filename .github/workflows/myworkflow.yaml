@@ -34,6 +34,12 @@ jobs:
         format: 'sarif'
         output: 'trivy-report.sarif'
         severity: 'CRITICAL,HIGH'
+
+    - name: Upload trivy report as a Github artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: trivy-report-sarif
+        path: 'trivy-report.sarif'
     
     - name: Convert SARIF to JSON
       run: |
@@ -43,7 +49,7 @@ jobs:
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
       with:
-        name: trivy-report
+        name: trivy-report-jason
         path: 'trivy-report.jason'
         retention-days: 20 # 90 is the default
 
