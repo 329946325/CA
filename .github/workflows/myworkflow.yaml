@@ -32,5 +32,4 @@ jobs:
         SLACK_TITLE: Scan failed - XiaTian
         SLACK_USERNAME: DipSA58 CICD
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}  
-      with:
-        attachment: trivy_scan_result.txt
+        SLACK_FILE_UPLOAD: trivy_scan_result.txt
