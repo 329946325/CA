@@ -28,5 +28,5 @@ jobs:
         SLACK_ICON: https://github.com/rtCamp.png?size=48
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
         SLACK_TITLE: Scan failed - Fred
-        SLACK_USERNAME: CICD
+        SLACK_USERNAME: CICD(TEST)
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}   
