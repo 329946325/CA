@@ -27,8 +27,8 @@ jobs:
         output: 'trivy-report.json'
 
     - name: Convert JSON report to table format
-      run: jq -r '.[].Vulnerabilities[] | [.VulnerabilityID, .PkgName, .InstalledVersion, .FixedVersion, .Severity, .Title] | @tsv' < trivy-report.json > trivy-report.txt
- 
+      run: python3 -c "import json; data = json.load(open('trivy-report.json')); lines = ['\t'.join(['VulnerabilityID', 'PkgName', 'InstalledVersion', 'FixedVersion', 'Severity', 'Title'])]; lines.extend(['\t'.join([vuln['VulnerabilityID'], vuln['PkgName'], vuln['InstalledVersion'], vuln['FixedVersion'], vuln['Severity'], vuln['Title']]) for vuln in data['Vulnerabilities']]); open('trivy-report.txt', 'w').write('\n'.join(lines))"
+    
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
       with:
