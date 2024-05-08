@@ -41,10 +41,10 @@ jobs:
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channel_id: ${{ secrets.SLACK_CHANNEL }}
-        content: 'trivy-report.txt'
+        content: '${{ steps.trivy-scan.outputs.scan-result }}'
         file_type: 'text'
         file_name: 'file-report.txt'
-        title: 'title of file'
+        title: 'Trivy Scan Report'
         initial_comment: 'Scan report by Xia Tian'
         # thread_ts: 'option'
         
