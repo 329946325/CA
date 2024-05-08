@@ -30,20 +30,32 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: trivy-report
-        path: 'trivy-report.json' #?????
+        path: 'trivy-report.json'
         retention-days: 20 # 90 is the default
     
+    # - name: Slack Notification
+    #   uses: rtCamp/action-slack-notify@v2
+    #   env:
+    #     SLACK_COLOR: 'failure'
+    #     SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
+    #     SLACK_TITLE: Scan failed - XiaTian
+    #     SLACK_USERNAME: DipSA58 CICD
+    #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
+    #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+    #     SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+    #     SLACK_FILE_UPLOAD: 'trivy-report.json'
+    #     initial_comment: 'Scan report by Xia Tian'
+
     - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
+      uses: MeilCli/slack-upload-file@v4
+      with:
         SLACK_COLOR: 'failure'
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
         SLACK_TITLE: Scan failed - XiaTian
         SLACK_USERNAME: DipSA58 CICD
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_FILE_UPLOAD: trivy-report.json
+        file_path: 'trivy-report.json'
         initial_comment: 'Scan report by Xia Tian'
         
     # - name: Convert to table
