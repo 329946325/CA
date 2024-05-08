@@ -23,7 +23,7 @@ jobs:
         severity: 'CRITICAL,HIGH'
         #format: 'sarif'
         #output: 'trivy-report.sarif'
-        format: 'table'
+        format: 'json'
         output: 'trivy-report.json'
  
     - name: Upload trivy report as a Github artifact
