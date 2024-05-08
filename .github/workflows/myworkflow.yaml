@@ -23,15 +23,17 @@ jobs:
         severity: 'CRITICAL,HIGH'
         #format: 'sarif'
         #output: 'trivy-report.sarif'
+        format: 'table'
+        output: 'trivy-report.txt'
 
-    - name: Convert to table
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: convert
-        #vuln-type: ""
-        #image-ref: results.json
-        format: table
-        output: trivy-report.txt
+    # - name: Convert to table
+      # uses: aquasecurity/trivy-action@master
+      # with:
+      #   scan-type: convert
+      #   #vuln-type: ""
+      #   #image-ref: results.json
+      #   format: table
+      #   output: trivy-report.txt
         #severity: 'CRITICAL,HIGH'
         
   
