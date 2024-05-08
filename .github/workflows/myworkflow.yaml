@@ -31,7 +31,7 @@ jobs:
         scan-type: 'config'
         ignore-unfixed: true
         hide-progress: true
-        format: 'json'
+        format: 'table'
         output: 'trivy-report.json'
         severity: 'CRITICAL,HIGH'
 
