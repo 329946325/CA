@@ -32,6 +32,19 @@ jobs:
         SLACK_TITLE: Scan failed - XiaTian
         SLACK_USERNAME: DipSA58 CICD
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
-        SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_FILE_UPLOAD: trivy_scan_result.txt
+        #SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        #SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+        #SLACK_FILE_UPLOAD: trivy_scan_result.txt
+
+    - name: Upoad trivy scan report
+      uses: MeilCli/slack-upload-file@v4
+      with:
+        slack_token: ${{ secrets.SLACK_TOKEN }}
+        channel_id: ${{ secrets.SLACK_CHANNEL }}
+        content: 'file content'
+        file_type: 'text'
+        file_name: 'trivy_scan_result.txt'
+        title: 'title of file'
+        initial_comment: 'post by slack-upload-file'
+        # thread_ts: 'option'
+        
