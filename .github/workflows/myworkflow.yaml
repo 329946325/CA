@@ -17,23 +17,21 @@ jobs:
       id: trivy-scan
       uses: aquasecurity/trivy-action@master
       with:
-        scan-type: 'fs'
-        scan-ref: '.'
+        scan-type: convert
+        vuln-type: ""
         trivy-config: trivy.yaml
         severity: 'CRITICAL,HIGH'
-        format: 'sarif'
-        output: 'trivy-report.sarif'
+        image-ref: results.json
+        format: table
+        output: 'trivy-report.txt'
   
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
       with:
         name: trivy-report
         #path: '${{ github.workspace }}/dependency-results.sbom.json'
-        path: 'trivy-report.sarif'
+        path: 'trivy-report.txt'
         retention-days: 20 # 90 is the default
-
-    # - name: Save Trivy Scan Result
-    #   run: echo "${{ steps.trivy-scan.outputs.scan-result }}" | base64 -d > trivy-report.txt
     
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
@@ -45,18 +43,6 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_FILE_UPLOAD: trivy-report.sarif
+        SLACK_FILE_UPLOAD: trivy-report.txt
         initial_comment: 'Scan report by Xia Tian'
-
-    # - name: Upoad trivy scan report
-    #   uses: MeilCli/slack-upload-file@v4
-    #   with:
-    #     slack_token: ${{ secrets.SLACK_TOKEN }}
-    #     channel_id: ${{ secrets.SLACK_CHANNEL }}
-    #     content: '${{ steps.trivy-scan.outputs.scan-result }}'
-    #     file_type: 'text'
-    #     file_name: 'file-report.txt'
-    #     title: 'Trivy Scan Report'
-    #     initial_comment: 'Scan report by Xia Tian'
-        # thread_ts: 'option'
         
