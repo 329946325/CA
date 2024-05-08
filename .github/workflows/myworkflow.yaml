@@ -22,7 +22,7 @@ jobs:
         trivy-config: trivy.yaml
 
     - name: Save Trivy Scan Result
-      run: echo "${{ steps.trivy-scan.outputs.scan-results }}" > trivy_scan_result.txt
+      run: echo "${{ steps.trivy-scan.outputs.scan-report }}" > trivy_scan_result.txt
     
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
@@ -34,17 +34,17 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         #SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         #SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        #SLACK_FILE_UPLOAD: trivy_scan_result.txt
+        #SLACK_FILE_UPLOAD: trivy_scan_report.txt
 
     - name: Upoad trivy scan report
       uses: MeilCli/slack-upload-file@v4
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channel_id: ${{ secrets.SLACK_CHANNEL }}
-        content: 'file content'
+        content: 'trivy_scan_report.txt'
         file_type: 'text'
-        file_name: 'trivy_scan_result.txt'
+        file_name: 'file.txt'
         title: 'title of file'
-        initial_comment: 'post by slack-upload-file'
+        initial_comment: 'Scan report by Xia Tian'
         # thread_ts: 'option'
         
