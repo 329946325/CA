@@ -1,11 +1,25 @@
-on: push
-name: Slack Notification Demo
+name: my workflow
+
+#trigger
+on:
+- push
+
 jobs:
-  slackNotification:
-    name: Slack Notification
+  #name of your job
+  myjob: 
+    #runner
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run Trivy vulnerability scanner in fs mode
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        trivy-config: trivy.yaml
+    
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
@@ -15,4 +29,4 @@ jobs:
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
         SLACK_TITLE: Scan failed - Fred
         SLACK_USERNAME: CICD
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}   
