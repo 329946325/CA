@@ -26,12 +26,17 @@ jobs:
         format: 'json'
         output: 'trivy-report.json'
  
-    # - name: Upload trivy report as a Github artifact
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: trivy-report
-    #     path: 'trivy-report.json'
-    #     retention-days: 20 # 90 is the default
+    - name: Upload trivy report as a Github artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: trivy-report
+        path: 'trivy-report.json'
+        retention-days: 20 # 90 is the default
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+          sarif_file: 'trivy-report.json'
     
     # - name: Slack Notification
     #   uses: rtCamp/action-slack-notify@v2
