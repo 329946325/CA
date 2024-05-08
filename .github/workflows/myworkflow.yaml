@@ -22,7 +22,7 @@ jobs:
         trivy-config: trivy.yaml
 
     - name: Save Trivy Scan Result
-      run: echo "${{ steps.trivy-scan.outputs.scan-result }}" > trivy-report.txt
+      run: echo "${{ steps.trivy-scan.outputs.scan-result }}" | base64 -d > trivy-report.txt
     
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
