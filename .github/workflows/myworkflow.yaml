@@ -13,28 +13,46 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Run Trivy vulnerability scanner in fs mode
-      id: trivy-scan
+    - name: Run Trivy vulnerability scanner in IaC mode
       uses: aquasecurity/trivy-action@master
       with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        trivy-config: trivy.yaml
+        scan-type: 'config'
+        hide-progress: true
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+        exit-code: '1'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH'
 
-    - name: Save Trivy Scan Result
-      run: echo "${{ steps.trivy-scan.outputs.scan-result }}" | base64 -d > trivy-report.txt
+      # uses: aquasecurity/trivy-action@0.12.0
+      # with:
+      #   scan-type: convert
+      #   vuln-type: ""
+      #   image-ref: results.json
+      #   format: table
+      #   output: table.txt
+    
+    - name: Upload trivy report as a Github artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: trivy-report
+        path: '${{ github.workspace }}/dependency-results.sbom.json'
+        retention-days: 20 # 90 is the default
+
+    # - name: Save Trivy Scan Result
+    #   run: echo "${{ steps.trivy-scan.outputs.scan-result }}" | base64 -d > trivy-report.txt
     
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
-        SLACK_COLOR: 'failure' # or a specific color like 'good' or '#ff00ff'
+        SLACK_COLOR: 'failure'
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
         SLACK_TITLE: Scan failed - XiaTian
         SLACK_USERNAME: DipSA58 CICD
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_FILE_UPLOAD: trivy-report.txt
+        SLACK_FILE_UPLOAD: trivy-report
         initial_comment: 'Scan report by Xia Tian'
 
     # - name: Upoad trivy scan report
