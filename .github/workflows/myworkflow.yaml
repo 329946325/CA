@@ -22,7 +22,7 @@ jobs:
         trivy-config: trivy.yaml
         severity: 'CRITICAL,HIGH'
         format: 'sarif'
-        output: 'trivy-results.sarif'
+        output: 'trivy-report.sarif'
   
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
