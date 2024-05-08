@@ -20,20 +20,20 @@ jobs:
       id: trivy-scan
       uses: aquasecurity/trivy-action@master
       with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        trivy-config: trivy.yaml
-        severity: 'CRITICAL,HIGH'
-        # format: 'sarif'
-        # output: 'trivy-report.sarif'
-        format: 'json'
-        output: 'trivy-report.json'
-        # scan-type: 'config'
-        # ignore-unfixed: true
-        # hide-progress: true
-        # format: 'sarif'
-        # output: 'trivy-report.sarif'
+        # scan-type: 'fs'
+        # scan-ref: '.'
+        # trivy-config: trivy.yaml
         # severity: 'CRITICAL,HIGH'
+        # format: 'sarif'
+        # output: 'trivy-report.sarif'
+        # format: 'json'
+        # output: 'trivy-report.json'
+        scan-type: 'config'
+        ignore-unfixed: true
+        hide-progress: true
+        format: 'jason'
+        output: 'trivy-report.jason'
+        severity: 'CRITICAL,HIGH'
  
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
@@ -47,29 +47,29 @@ jobs:
     #   with:
     #       sarif_file: 'trivy-report.sarif'
     
-    # - name: Slack Notification
-    #   uses: rtCamp/action-slack-notify@v2
-    #   env:
-    #     SLACK_COLOR: 'failure'
-    #     SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
-    #     SLACK_TITLE: Scan failed - XiaTian
-    #     SLACK_USERNAME: DipSA58 CICD
-    #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
-    #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-    #     SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-    #     SLACK_FILE_UPLOAD: 'trivy-report.json'
-    #     initial_comment: 'Scan report by Xia Tian'
-
     - name: Slack Notification
-      uses: MeilCli/slack-upload-file@v4
-      with:
-        content: 'file content'
-        file_type: 'text'
-        title: Scan failed - XiaTian
-        slack_token: ${{ secrets.SLACK_TOKEN }}
-        channel_id: ${{ secrets.SLACK_CHANNEL }}
-        file_path: 'trivy-report.json'
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_COLOR: 'failure'
+        SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
+        SLACK_TITLE: Scan failed - XiaTian
+        SLACK_USERNAME: DipSA58 CICD
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
+        SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+        SLACK_FILE_UPLOAD: 'trivy-report.json'
         initial_comment: 'Scan report by Xia Tian'
+
+    # - name: Slack Notification
+    #   uses: MeilCli/slack-upload-file@v4
+    #   with:
+    #     content: 'file content'
+    #     file_type: 'text'
+    #     title: Scan failed - XiaTian
+    #     slack_token: ${{ secrets.SLACK_TOKEN }}
+    #     channel_id: ${{ secrets.SLACK_CHANNEL }}
+    #     file_path: 'trivy-report.sarif'
+    #     initial_comment: 'Scan report by Xia Tian'
         
     
       # - name: Convert to table
