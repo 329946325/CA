@@ -25,12 +25,15 @@ jobs:
         #output: 'trivy-report.sarif'
         format: 'json'
         output: 'trivy-report.json'
+
+    - name: Convert JSON report to table format
+      run: jq -r '.[].Vulnerabilities[] | [.VulnerabilityID, .PkgName, .InstalledVersion, .FixedVersion, .Severity, .Title] | @tsv' < trivy-report.json > trivy-report.txt
  
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
       with:
         name: trivy-report
-        path: 'trivy-report.json'
+        path: 'trivy-report.txt'
         retention-days: 20 # 90 is the default
     
     # - name: Slack Notification
@@ -54,7 +57,7 @@ jobs:
         title: Scan failed - XiaTian
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channel_id: ${{ secrets.SLACK_CHANNEL }}
-        file_path: 'trivy-report.json'
+        file_path: 'trivy-report.txt'
         initial_comment: 'Scan report by Xia Tian'
         
     
