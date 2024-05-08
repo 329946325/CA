@@ -52,7 +52,7 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_FILE_UPLOAD: trivy-report
+        SLACK_FILE_UPLOAD: trivy-report.txt
         initial_comment: 'Scan report by Xia Tian'
 
     # - name: Upoad trivy scan report
