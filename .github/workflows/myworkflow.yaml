@@ -1,4 +1,4 @@
-name: my workflow
+name: Build and Push
 
 #trigger
 on:
@@ -19,13 +19,17 @@ jobs:
         scan-type: 'fs'
         scan-ref: '.'
         trivy-config: trivy.yaml
+
+    - name: Save Trivy Scan Result
+      run: echo "${{ steps.trivy-scan.outputs.scan-results }}" > trivy_scan_result.txt
     
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: 'success' # or a specific color like 'good' or '#ff00ff'
-        #SLACK_ICON: https://github.com/rtCamp.png?size=48
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
-        SLACK_TITLE: Scan failed - Fred
-        SLACK_USERNAME: CICD_TEST
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}   
+        SLACK_TITLE: Scan failed - XiaTian
+        SLACK_USERNAME: DipSA58 CICD
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}  
+      with:
+        attachment: trivy_scan_result.txt
