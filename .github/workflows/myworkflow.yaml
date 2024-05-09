@@ -32,12 +32,12 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: xiatian/cicd:${{ github.sha }}
+        tags: 329946325/CA:${{ github.sha }}
         build-args: |
             SOME_ARG: some_value
    
     - name: Sign Docker Image
-      run: echo "Image signing feature to be implemented"
+      run: echo "TEST SIGN"
 
 
     - name: Run Trivy vulnerability scanner in fs mode
