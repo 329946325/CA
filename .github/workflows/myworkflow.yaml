@@ -20,20 +20,21 @@ jobs:
       id: trivy-scan
       uses: aquasecurity/trivy-action@master
       with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        trivy-config: trivy.yaml
-        severity: 'CRITICAL,HIGH'
+        # scan-type: 'fs'
+        # scan-ref: '.'
+        # trivy-config: trivy.yaml
+        # severity: 'CRITICAL,HIGH'
         # format: 'sarif'
         # output: 'trivy-report.sarif'
         # format: 'json'
         # output: 'trivy-report.json'
-        # scan-type: 'config'
-        # ignore-unfixed: true
-        # hide-progress: true
+        scan-type: 'config'
+        ignore-unfixed: true
+        hide-progress: true
         format: table
+        vuln-type: 'os,library'
         output: 'trivy-report.txt'
-        # severity: 'CRITICAL,HIGH'
+        severity: 'CRITICAL,HIGH'
 
     # - name: Convert to table
     #   uses: aquasecurity/trivy-action@master
