@@ -51,8 +51,22 @@ jobs:
       with:
         #platforms: linux/amd64,linux/arm/v7,linux/arm64
         push: true
-        tags: kericccccc/cicd:${{ github.sha }}
-   
+        tags: kericccccc/CICD:${{ github.sha }}
+      
+    - name: Sign image with a key
+      run: |
+        images=""
+        for tag in ${TAGS}; do
+          images+="${tag}@${DIGEST} "
+        done
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
+      env:
+        TAGS: kericccccc/CICD:${{ github.sha }}
+        DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+
+
     # - name: Sign the images with GitHub OIDC Token
     #   env:
     #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
@@ -63,19 +77,6 @@ jobs:
     #     images+="${tag}@${DIGEST} "
     #     done
     #     cosign sign --yes ${images}
-      
-    - name: Sign image with a key
-      run: |
-        images=""
-        for tag in ${TAGS}; do
-          images+="${tag}@${DIGEST} "
-        done
-        cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
-      env:
-        TAGS: kericccccc/cicd:${{ github.sha }}
-        DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         
 
     - name: Run Trivy vulnerability scanner in fs mode
