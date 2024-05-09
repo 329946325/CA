@@ -45,16 +45,44 @@ jobs:
         push: true
         tags: kericccccc/cicd:${{ github.sha }}
    
-    - name: Sign the images with GitHub OIDC Token
-      env:
-        DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        TAGS: kericccccc/cicd:${{ github.sha }}
+    # - name: Sign the images with GitHub OIDC Token
+    #   env:
+    #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
+    #     TAGS: kericccccc/cicd:${{ github.sha }}
+    #   run: |
+    #     images=""
+    #     for tag in ${TAGS}; do
+    #     images+="${tag}@${DIGEST} "
+    #     done
+    #     cosign sign --yes ${images}
+
+    - name: Generate key pair
+      run: cosign generate-key-pair > cosign.key
+  
+    - name: Save public key to repository
+      uses: EndBug/add-and-commit@v7
+      with:
+        author_name: GitHub Actions
+        author_email: github-actions[at]github.com
+        message: "Add cosign public key"
+        add: cosign.pub
+  
+    - name: Save private key to GitHub Secret
+      run: echo "::set-secret name=COSIGN_PRIVATE_KEY::$(cat cosign.key)"
+
+
+    - name: Sign image with a key
       run: |
         images=""
         for tag in ${TAGS}; do
-        images+="${tag}@${DIGEST} "
+          images+="${tag}@${DIGEST} "
         done
-        cosign sign --yes ${images}
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
+      env:
+        TAGS: kericccccc/cicd:${{ github.sha }}
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
 
     - name: Run Trivy vulnerability scanner in fs mode
