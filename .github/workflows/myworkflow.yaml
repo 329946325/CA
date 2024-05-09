@@ -110,6 +110,7 @@ jobs:
         name: trivy-report
         path: './trivy-report.txt'
         retention-days: 20 # 90 is the default
+        
     
     # Condition 1: FAILURE
     - name: Slack Notification - Failure
@@ -123,8 +124,20 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_FILE_UPLOAD: trivy-report.txt
-        initial_comment: 'Scan report by Xia Tian' 
+        #SLACK_FILE_UPLOAD: './trivy-report.txt'
+        #initial_comment: 'Scan report by Xia Tian' 
+
+    - name: Send report
+      if: steps.determine-status.outputs.status == 'failure'
+      uses: MeilCli/slack-upload-file@v4
+      with:
+        slack_token: ${{ secrets.SLACK_TOKEN }}
+        channel_id: ${{ secrets.SLACK_CHANNEL }}
+        content: 'file content'
+        file_type: 'trivy-report'
+        file_name: './trivy-report.txt'
+        title: 'title of file'
+        initial_comment: 'Scan report by Xia Tian'
 
     # Condition 2: SUCCESS
     - name: Slack Notification - Success
