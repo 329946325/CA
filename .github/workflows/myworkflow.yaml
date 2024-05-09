@@ -70,7 +70,7 @@ jobs:
         for tag in ${TAGS}; do
           images+="${tag}@${DIGEST} "
         done
-        cosign sign --yes --key <(echo "$COSIGN_PRIVATE_KEY") ${images}
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
       env:
         TAGS: kericccccc/cicd:${{ github.sha }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
