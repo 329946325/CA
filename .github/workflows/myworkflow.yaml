@@ -51,7 +51,7 @@ jobs:
       with:
         #platforms: linux/amd64,linux/arm/v7,linux/arm64
         push: true
-        tags: kericccccc/CICD:${{ github.sha }}
+        tags: kericccccc/cicd:${{ github.sha }}
       
     - name: Sign image with a key
       run: |
@@ -61,7 +61,7 @@ jobs:
         done
         cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
       env:
-        TAGS: kericccccc/CICD:${{ github.sha }}
+        TAGS: kericccccc/cicd:${{ github.sha }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
