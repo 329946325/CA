@@ -81,6 +81,15 @@ jobs:
     #     format: table
     #     output: 'trivy-report.txt'
     #     severity: 'CRITICAL,HIGH'
+
+    # only when failure need upload, otherwise will also display under success
+    - name: Upload trivy report as a Github artifact
+      if: steps.determine-status.outputs.status == 'failure' 
+      uses: actions/upload-artifact@v4
+      with:
+        name: trivy-report
+        path: './trivy-report.json'
+        retention-days: 20 # 90 is the default
     
     # Condition 1: FAILURE
     - name: Slack Notification - Failure
@@ -97,33 +106,24 @@ jobs:
         #SLACK_FILE_UPLOAD: './trivy-report.json'
         initial_comment: 'Scan report by Xia Tian'
 
-      # only when failure need upload, otherwise will also display under success
-    - name: Upload trivy report as a Github artifact
-      if: steps.determine-status.outputs.status == 'failure' 
-      uses: actions/upload-artifact@v4
-      with:
-        name: trivy-report
-        path: './trivy-report.json'
-        retention-days: 20 # 90 is the default
-
-    # Condition 2: SUCCESS
-    - name: Slack Notification - Success
-      if: steps.determine-status.outputs.status == 'success'
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACKIFY_MARKDOWN: 'true'
-        SLACK_COLOR: 'success'
-        SLACK_TITLE: Image build and signed
-        SLACK_USERNAME: DipSA58 CICD
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
-        SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_MESSAGE: 
-          '**Name**: XIA TIAN \n
-          **Metriculation**: A0191771Y \n
-          **Email**: [tian_xia@u.nus.edu](tian_xia@u.nus.edu) \n
-          **Git**: ${{ github.server_url }}/${{ github.repository }} \n
-          **Image**: https://hub.docker.com/repository/docker/kericccccc/cicd/general'
+    # # Condition 2: SUCCESS
+    # - name: Slack Notification - Success
+    #   if: steps.determine-status.outputs.status == 'success'
+    #   uses: rtCamp/action-slack-notify@v2
+    #   env:
+    #     SLACKIFY_MARKDOWN: 'true'
+    #     SLACK_COLOR: 'success'
+    #     SLACK_TITLE: Image build and signed
+    #     SLACK_USERNAME: DipSA58 CICD
+    #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
+    #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+    #     SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+    #     SLACK_MESSAGE: 
+    #       '**Name**: XIA TIAN \n
+    #       **Metriculation**: A0191771Y \n
+    #       **Email**: [tian_xia@u.nus.edu](tian_xia@u.nus.edu) \n
+    #       **Git**: ${{ github.server_url }}/${{ github.repository }} \n
+    #       **Image**: https://hub.docker.com/repository/docker/kericccccc/cicd/general'
 
 
         
