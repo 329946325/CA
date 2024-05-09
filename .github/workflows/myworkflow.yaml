@@ -77,8 +77,7 @@ jobs:
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         
-
-
+        
     - name: Run Trivy vulnerability scanner in fs mode
       id: trivy-scan
       uses: aquasecurity/trivy-action@master
