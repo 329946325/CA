@@ -56,12 +56,8 @@ jobs:
     #     done
     #     cosign sign --yes ${images}
 
-    - name: Remove existing cosign.key file
-      run: rm -f cosign.key
-
     - name: Generate key pair
-      run: |
-        yes | cosign generate-key-pair > cosign.key
+      run: cosign generate-key-pair > cosign.key --overwrite
   
     - name: Save public key to repository
       uses: EndBug/add-and-commit@v7
@@ -79,7 +75,7 @@ jobs:
 
     - name: test ls
       run: ls -l
-
+      
     - name: Sign image with a key
       run: |
         images=""
