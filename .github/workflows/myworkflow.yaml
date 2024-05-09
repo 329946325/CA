@@ -124,8 +124,6 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        #SLACK_FILE_UPLOAD: './trivy-report.txt'
-        #initial_comment: 'Scan report by Xia Tian' 
 
     - name: Send report
       if: steps.determine-status.outputs.status == 'failure'
@@ -133,10 +131,7 @@ jobs:
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channel_id: ${{ secrets.SLACK_CHANNEL }}
-        #content: 'file content'
-        #file_type: 'text'
         file_path: './trivy-report.txt'
-        #title: 'title of file'
         initial_comment: 'Scan report by Xia Tian'
 
     # Condition 2: SUCCESS
