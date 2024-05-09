@@ -57,7 +57,7 @@ jobs:
       with:
         scan-type: 'fs'
         scan-ref: '.'
-        severity: 'HIGH, CRITICAL' 
+        severity: 'HIGH,CRITICAL' 
         # image-ref: 'kericccccc/cicd:${{ github.sha }}'     
         format: 'table' #output as table format
         output: './trivy-report.json'
