@@ -35,12 +35,21 @@ jobs:
     
     - name: Build and push
       uses: docker/build-push-action@v5
+      id: build-and-push
       with:
         push: true
         tags: kericccccc/cicd:${{ github.sha }}
    
-    - name: Sign Docker Image
-      run: echo "TEST SIGN"
+    - name: Sign the images with GitHub OIDC Token
+      env:
+        DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        TAGS: kericccccc/cicd:${{ github.sha }}
+      run: |
+        images=""
+        for tag in ${TAGS}; do
+        images+="${tag}@${DIGEST} "
+        done
+        cosign sign --yes ${images}
 
 
     - name: Run Trivy vulnerability scanner in fs mode
