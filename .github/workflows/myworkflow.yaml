@@ -67,16 +67,16 @@ jobs:
     - name: Generate key pair
       run: cosign generate-key-pair
 
-    - name: Save public key to repository
-      uses: EndBug/add-and-commit@v7
-      with:
-        author_name: GitHub Actions
-        author_email: github-actions[at]github.com
-        message: "Add cosign public key"
-        add: cosign.pub
+    # - name: Save public key to repository
+    #   uses: EndBug/add-and-commit@v7
+    #   with:
+    #     author_name: GitHub Actions
+    #     author_email: github-actions[at]github.com
+    #     message: "Add cosign public key"
+    #     add: cosign.pub
     
-    - name: test ls
-      run: ls -l
+    # - name: test ls
+    #   run: ls -l
     
     - name: Save private key to GitHub Secret
       run: echo "::set-secret name=COSIGN_PRIVATE_KEY::$(cat cosign.key)"
