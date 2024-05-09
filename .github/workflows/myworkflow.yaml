@@ -85,7 +85,9 @@ jobs:
       with:
         scan-type: 'fs'
         scan-ref: '.'
+        #TEST1
         severity: 'HIGH,CRITICAL' 
+        #TEST2
         #severity: 'CRITICAL' 
         # image-ref: 'kericccccc/cicd:${{ github.sha }}'     
         format: 'table' #output as table format
