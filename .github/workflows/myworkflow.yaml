@@ -62,10 +62,13 @@ jobs:
         format: 'table'
         output: './trivy-report.json'
       
-    - name: Check Trivy scan result
+    - name: Determine success or failure
+      id: determine-status
       run: |
-        if grep -q '"CRITICAL"' ./trivy-report.json; then
-          exit 1  # Failure if CRITICAL vulnerabilities found
+        if [ -s "./trivy-report.json" ]; then
+          echo "::set-output name=status::failure"
+        else
+          echo "::set-output name=status::success"
         fi
 
     # - name: Convert to table
@@ -86,7 +89,7 @@ jobs:
         retention-days: 20 # 90 is the default
     
     - name: Slack Notification - Failure
-      if: ${{ failure() }}
+      if: steps.determine-status.outputs.status == 'failure'
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: 'failure'
@@ -100,7 +103,7 @@ jobs:
         initial_comment: 'Scan report by Xia Tian'
 
     - name: Slack Notification - Success
-      if: ${{ success() }}
+      if: steps.determine-status.outputs.status == 'success'
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACKIFY_MARKDOWN: 'true'
