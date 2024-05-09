@@ -60,7 +60,8 @@ jobs:
       run: rm -f cosign.key
 
     - name: Generate key pair
-      run: cosign generate-key-pair > cosign.key
+      run: |
+        yes | cosign generate-key-pair > cosign.key
   
     - name: Save public key to repository
       uses: EndBug/add-and-commit@v7
