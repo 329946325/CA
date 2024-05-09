@@ -23,6 +23,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Run Trivy vulnerability scanner in fs mode
+      id: trivy-scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        #TEST1
+        #severity: 'HIGH,CRITICAL' 
+        #TEST2
+        severity: 'CRITICAL' 
+        # image-ref: 'kericccccc/cicd:${{ github.sha }}'     
+        format: 'table' #output as table format
+        output: './trivy-report.txt'
+
     - name: Install Cosign
       uses: sigstore/cosign-installer@v3.5.0
 
@@ -77,21 +91,6 @@ jobs:
     #     images+="${tag}@${DIGEST} "
     #     done
     #     cosign sign --yes ${images}
-        
-
-    - name: Run Trivy vulnerability scanner in fs mode
-      id: trivy-scan
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        #TEST1
-        #severity: 'HIGH,CRITICAL' 
-        #TEST2
-        severity: 'CRITICAL' 
-        # image-ref: 'kericccccc/cicd:${{ github.sha }}'     
-        format: 'table' #output as table format
-        output: './trivy-report.txt'
       
     # define conditions
     - name: Determine success or failure
