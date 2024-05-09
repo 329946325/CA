@@ -7,14 +7,23 @@ on:
 
 jobs:
   myjob: 
-    if: "!startsWith(github.event.head_commit.message, '#NORUN')"
+    
+    # if: "!startsWith(github.event.head_commit.message, '#NORUN')"
+
     runs-on: ubuntu-latest
+    if: startsWith(github.event.head_commit.message, '#NORUN') == false
+
     permissions:
       contents: read
       security-events: write
       id-token: write
-
+    
+    
     steps:
+
+    # - name: test
+    #   if: !startsWith(github.event.head_commit.message, '#NORUN')
+
     - name: Checkout code
       uses: actions/checkout@v3
 
