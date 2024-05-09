@@ -67,22 +67,19 @@ jobs:
     - name: Generate key pair
       run: cosign generate-key-pair
 
-    # - name: Save public key to repository
-    #   uses: EndBug/add-and-commit@v7
-    #   with:
-    #     author_name: GitHub Actions
-    #     author_email: github-actions[at]github.com
-    #     message: "Add cosign public key"
-    #     add: cosign.pub
+    - name: Save public key to repository
+      uses: EndBug/add-and-commit@v7
+      with:
+        author_name: GitHub Actions
+        author_email: github-actions[at]github.com
+        message: "Add cosign public key"
+        add: cosign.pub
     
-    # - name: test ls
-    #   run: ls -l
+    - name: test ls
+      run: ls -l
     
     - name: Save private key to GitHub Secret
       run: echo "::set-secret name=COSIGN_PRIVATE_KEY::$(cat cosign.key)"
-
-    - name: test ls
-      run: ls -l
       
     - name: Sign image with a key
       run: |
@@ -94,8 +91,8 @@ jobs:
       env:
         TAGS: kericccccc/cicd:${{ github.sha }}
         DIGEST: ${{ env.DIGEST }}
-        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        # COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        # COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         # DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
 
