@@ -80,7 +80,6 @@ jobs:
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
 
-
     # - name: Sign the images with GitHub OIDC Token
     #   env:
     #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
@@ -125,7 +124,7 @@ jobs:
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
         SLACK_FILE_UPLOAD: './trivy-report.txt'
-        initial_comment: 'Scan report by Xia Tian'
+        initial_comment: 'Scan report by Xia Tian' 
 
     # Condition 2: SUCCESS
     - name: Slack Notification - Success
