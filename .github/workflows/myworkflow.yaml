@@ -7,6 +7,7 @@ on:
 
 jobs:
   myjob: 
+    if: "!startsWith(github.event.head_commit.message, '#NORUN')"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -72,18 +73,9 @@ jobs:
           echo "::set-output name=status::success"
         fi
 
-    # - name: Convert to table
-    #   uses: aquasecurity/trivy-action@master
-    #   with:
-    #     scan-type: convert
-    #     vuln-type: ""
-    #     image-ref: trivy-report.json
-    #     format: table
-    #     output: 'trivy-report.txt'
-    #     severity: 'CRITICAL,HIGH'
-
-    # only when failure need upload, otherwise will also display under success
+    # Upload
     - name: Upload trivy report as a Github artifact
+    # only when failure need upload, otherwise will also display under success
       if: steps.determine-status.outputs.status == 'failure' 
       uses: actions/upload-artifact@v4
       with:
