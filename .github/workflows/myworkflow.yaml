@@ -23,15 +23,13 @@ jobs:
         scan-type: 'fs'
         scan-ref: '.'
         trivy-config: trivy.yaml
-        severity: 'CRITICAL,HIGH'
-        # format: 'sarif'
-        # output: 'trivy-report.sarif'
-        # format: 'json'
-        # output: 'trivy-report.json'
+        severity: 'CRITICAL,HIGH'      
         # scan-type: 'config'
         # ignore-unfixed: true
         # hide-progress: true
         # vuln-type: 'os,library'
+        # format: 'sarif'
+        # output: 'trivy-report.sarif'
         format: 'json'
         output: './trivy-report.json'
         # severity: 'CRITICAL,HIGH'
@@ -49,14 +47,11 @@ jobs:
     - name: List files in directory
       run: ls -l
 
-    - name: Show trivy report
-      run: cat ./trivy-report.json
-
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
       with:
         name: trivy-report
-        path: './trivy-report.json'
+        path: trivy-report.json
         retention-days: 20 # 90 is the default
 
     # - name: Upload Trivy scan results to GitHub Security tab
