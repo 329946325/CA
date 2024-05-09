@@ -32,7 +32,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: 329946325/CA:${{ github.sha }}
+        tags: 329946325/cicd:${{ github.sha }}
         build-args: |
             SOME_ARG: some_value
    
