@@ -33,7 +33,7 @@ jobs:
         # hide-progress: true
         # vuln-type: 'os,library'
         format: json
-        output: 'trivy-report.json'
+        output: './trivy-report.json'
         # severity: 'CRITICAL,HIGH'
 
     # - name: Convert to table
