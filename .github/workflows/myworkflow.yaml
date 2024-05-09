@@ -98,7 +98,7 @@ jobs:
         SLACK_COLOR: 'success'
         SLACK_TITLE: Image build and signed
         SLACK_USERNAME: DipSA58 CICD
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
+        #SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
         SLACK_MESSAGE: 
