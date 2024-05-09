@@ -1,13 +1,10 @@
 name: Build and Push
 
-#trigger
 on:
 - push
 
 jobs:
-  #name of your job
   myjob: 
-    #runner
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -60,16 +57,9 @@ jobs:
         scan-ref: '.'
         severity: 'CRITICAL,HIGH' 
         image-ref: 'kericccccc/cicd:${{ github.sha }}'     
-        # scan-type: 'config'
-        # ignore-unfixed: true
-        # hide-progress: true
-        # vuln-type: 'os,library'
-        # format: 'sarif'
-        # output: 'trivy-report.sarif'
         format: 'table'
         output: './trivy-report.json'
         # ignore-unfixed: true
-        # severity: 'CRITICAL,HIGH'
 
     # - name: Convert to table
     #   uses: aquasecurity/trivy-action@master
@@ -81,26 +71,14 @@ jobs:
     #     output: 'trivy-report.txt'
     #     severity: 'CRITICAL,HIGH'
 
-    # - name: Debug
-    #   run: |
-    #     echo "Listing files in directory..."
-    #     ls -l
-    #     echo "Showing content of trivy report..."
-    #     cat ./trivy-report.json
-
     - name: Upload trivy report as a Github artifact
       uses: actions/upload-artifact@v4
       with:
         name: trivy-report
         path: './trivy-report.json'
         retention-days: 20 # 90 is the default
-
-    # - name: Upload Trivy scan results to GitHub Security tab
-    #   uses: github/codeql-action/upload-sarif@v2
-    #   with:
-    #       sarif_file: 'trivy-report.sarif'
     
-    - name: Slack Notification
+    - name: Slack Notification - Failure
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: 'failure'
@@ -112,6 +90,22 @@ jobs:
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
         SLACK_FILE_UPLOAD: './trivy-report.json'
         initial_comment: 'Scan report by Xia Tian'
+
+    - name: Slack Notification - Success
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_COLOR: 'success'
+        SLACK_TITLE: Image build and signed
+        SLACK_USERNAME: DipSA58 CICD
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
+        SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+        SLACK_MESSAGE: 'Name: Xia Tian
+                        Metriculation: test
+                        Email: tian_xia@u.nus.edu
+                        Git: test
+                        Image: test'
+
 
     # - name: Slack Notification
     #   uses: MeilCli/slack-upload-file@v4
