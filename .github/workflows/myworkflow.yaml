@@ -106,7 +106,7 @@ jobs:
           **Metriculation**: A0191771Y \n
           **Email**: [tian_xia@u.nus.edu](tian_xia@u.nus.edu) \n
           **Git**: ${{ github.server_url }}/${{ github.repository }} \n
-          **Image**: https://hub.docker.com/repository/docker/${{ github.sha }}'
+          **Image**: https://hub.docker.com/repository/docker/${{ github.repository }}'
 
 
 
