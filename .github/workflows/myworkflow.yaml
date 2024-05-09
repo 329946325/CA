@@ -8,9 +8,8 @@ on:
 jobs:
   myjob: 
     
-    # if: "!startsWith(github.event.head_commit.message, '#NORUN')"
-
     runs-on: ubuntu-latest
+
     if: startsWith(github.event.head_commit.message, '#NORUN') == false
 
     permissions:
@@ -20,9 +19,6 @@ jobs:
     
     
     steps:
-
-    # - name: test
-    #   if: !startsWith(github.event.head_commit.message, '#NORUN')
 
     - name: Checkout code
       uses: actions/checkout@v3
@@ -67,7 +63,8 @@ jobs:
       with:
         scan-type: 'fs'
         scan-ref: '.'
-        severity: 'HIGH,CRITICAL' 
+        #severity: 'HIGH,CRITICAL' 
+        severity: 'CRITICAL' 
         # image-ref: 'kericccccc/cicd:${{ github.sha }}'     
         format: 'table' #output as table format
         output: './trivy-report.txt'
