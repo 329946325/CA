@@ -100,11 +100,13 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        SLACK_MESSAGE: 'Name: Xia Tian
-                        Metriculation: test
-                        Email: tian_xia@u.nus.edu
-                        Git: test
-                        Image: test'
+        SLACK_MESSAGE: 
+          '*Name*: XIA TIAN \n
+          *Metriculation*: A0191771Y \n
+          *Email*: [tian_xia@u.nus.edu](tian_xia@u.nus.edu) \n
+          *Git*: ${{ github.server_url }}/${{ github.repository }} \n
+          *Image*: [test]()'
+
 
 
     # - name: Slack Notification
