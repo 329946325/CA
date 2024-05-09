@@ -70,14 +70,14 @@ jobs:
         for tag in ${TAGS}; do
           images+="${tag}@${DIGEST} "
         done
-        cosign sign --yes --key "env: COSIGN_PRIVATE_KEY" ${images}
+        cosign sign --yes --key <(echo "$COSIGN_PRIVATE_KEY") ${images}
       env:
         TAGS: kericccccc/cicd:${{ github.sha }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         
-        
+
     - name: Run Trivy vulnerability scanner in fs mode
       id: trivy-scan
       uses: aquasecurity/trivy-action@master
