@@ -68,7 +68,6 @@ jobs:
       env:
         SLACK_COLOR: 'failure'
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
-        SLACK_ICON: https://ca.slack-edge.com/T06U5JGHA5B-U070U8R0AQ4-gd66bab29f91-512
         SLACK_TITLE: Scan failed - XiaTian
         SLACK_USERNAME: DipSA58 CICD
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
