@@ -1,7 +1,9 @@
 name: Build and Push
 
 on:
-- push
+  push:
+    branches:
+      - 'release/v[0-9]+.[0-9]+'
 
 jobs:
   myjob: 
@@ -83,7 +85,7 @@ jobs:
       env:
         SLACK_COLOR: 'failure'
         SLACK_MESSAGE: 'Failed trivy scan, see uploaded report'
-        SLACK_TITLE: Scan failed - XiaTian
+        SLACK_TITLE: Scan failed - Xia Tian
         SLACK_USERNAME: DipSA58 CICD
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
