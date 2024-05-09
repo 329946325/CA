@@ -103,7 +103,7 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-        #SLACK_FILE_UPLOAD: './trivy-report.json'
+        SLACK_FILE_UPLOAD: './trivy-report.json'
         initial_comment: 'Scan report by Xia Tian'
 
     # # Condition 2: SUCCESS
