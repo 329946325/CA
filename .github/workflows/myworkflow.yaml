@@ -30,9 +30,9 @@ jobs:
         scan-type: 'fs'
         scan-ref: '.'
         # TEST1
-        # severity: 'HIGH,CRITICAL' 
+        severity: 'HIGH,CRITICAL' 
         # TEST2
-        severity: 'CRITICAL' 
+        # severity: 'CRITICAL' 
         # image-ref: 'kericccccc/cicd:${{ github.sha }}'     
         format: 'table' #output as table format
         output: './trivy-report.txt'
