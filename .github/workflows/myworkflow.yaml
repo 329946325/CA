@@ -22,7 +22,6 @@ jobs:
       with:
         scan-type: 'fs'
         scan-ref: '.'
-        trivy-config: trivy.yaml
         severity: 'CRITICAL,HIGH'      
         # scan-type: 'config'
         # ignore-unfixed: true
@@ -32,7 +31,7 @@ jobs:
         # output: 'trivy-report.sarif'
         format: 'json'
         output: './trivy-report.json'
-        ignore-unfixed: true
+        # ignore-unfixed: true
         # severity: 'CRITICAL,HIGH'
 
     # - name: Convert to table
@@ -56,7 +55,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: trivy-report
-        path: trivy-report.json
+        path: './trivy-report.json'
         retention-days: 20 # 90 is the default
 
     # - name: Upload Trivy scan results to GitHub Security tab
