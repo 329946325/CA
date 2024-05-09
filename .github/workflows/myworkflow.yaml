@@ -56,6 +56,9 @@ jobs:
     #     done
     #     cosign sign --yes ${images}
 
+    - name: Remove existing cosign.key file
+      run: rm -f cosign.key
+
     - name: Generate key pair
       run: cosign generate-key-pair > cosign.key
   
@@ -75,7 +78,7 @@ jobs:
 
     - name: test ls
       run: ls -l
-      
+
     - name: Sign image with a key
       run: |
         images=""
