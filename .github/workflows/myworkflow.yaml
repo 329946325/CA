@@ -94,6 +94,7 @@ jobs:
     - name: Slack Notification - Success
       uses: rtCamp/action-slack-notify@v2
       env:
+        SLACKIFY_MARKDOWN: 'true'
         SLACK_COLOR: 'success'
         SLACK_TITLE: Image build and signed
         SLACK_USERNAME: DipSA58 CICD
