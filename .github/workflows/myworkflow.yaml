@@ -58,7 +58,7 @@ jobs:
 
     - name: Generate key pair
       run: |
-        cosign generate-key-pair -k cosign.key --overwrite
+        cosign generate-key-pair --kms <some provider>://<some key>
 
     - name: Save public key to repository
       uses: EndBug/add-and-commit@v7
